@@ -10,6 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import MaintenanceForm from './MaintenanceForm';
+import { API_URL } from '../config';
 
 ChartJS.register(
   CategoryScale,
@@ -20,7 +21,6 @@ ChartJS.register(
   Legend
 );
 
-const API_URL = 'http://localhost:3002/api';
 const MAINTENANCE_INTERVAL = 7000;
 
 function CarDetails({ car, onBack, onUpdate }) {
@@ -56,7 +56,6 @@ function CarDetails({ car, onBack, onUpdate }) {
     }
   };
 
-  // Добавить ИЛИ обновить
   const handleSaveMaintenance = async (record) => {
     try {
       const isEdit = !!editingRecord;
@@ -198,11 +197,11 @@ function CarDetails({ car, onBack, onUpdate }) {
       {
         label: 'Расходы, ₽',
         data: monthlyData.data,
-        backgroundColor: 'rgba(76, 175, 80, 0.7)',
-        borderColor: '#388e3c',
+        backgroundColor: 'rgba(212, 175, 55, 0.6)',
+        borderColor: '#d4af37',
         borderWidth: 2,
         borderRadius: 8,
-        hoverBackgroundColor: '#4caf50',
+        hoverBackgroundColor: '#f5d76e',
       },
     ],
   };
@@ -213,7 +212,11 @@ function CarDetails({ car, onBack, onUpdate }) {
     plugins: {
       legend: { display: false },
       tooltip: {
-        backgroundColor: '#2e7d32',
+        backgroundColor: '#1a1c22',
+        borderColor: '#d4af37',
+        borderWidth: 1,
+        titleColor: '#f5d76e',
+        bodyColor: '#f1ede4',
         titleFont: { family: 'Inter', size: 14 },
         bodyFont: { family: 'Inter', size: 14 },
         padding: 12,
@@ -228,15 +231,15 @@ function CarDetails({ car, onBack, onUpdate }) {
       y: {
         beginAtZero: true,
         ticks: {
-          color: '#66bb6a',
+          color: '#a8abb2',
           font: { family: 'Inter', size: 12 },
           callback: (value) => value.toLocaleString() + ' ₽',
         },
-        grid: { color: '#e8f5e9' },
+        grid: { color: 'rgba(212, 175, 55, 0.08)' },
       },
       x: {
         ticks: {
-          color: '#66bb6a',
+          color: '#a8abb2',
           font: { family: 'Inter', size: 11 },
         },
         grid: { display: false },

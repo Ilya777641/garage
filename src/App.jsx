@@ -3,8 +3,7 @@ import axios from 'axios';
 import CarForm from './components/CarForm';
 import CarList from './components/CarList';
 import CarDetails from './components/CarDetails';
-
-const API = 'http://localhost:3002/api';
+import { API_URL as API } from './config';
 
 function App() {
   const [cars, setCars] = useState([]);
