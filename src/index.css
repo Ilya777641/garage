@@ -1,0 +1,1062 @@
+/* ============================================
+   ГАРАЖ — ТЁМНАЯ ПРЕМИУМ-ТЕМА (адаптив iPhone)
+   ============================================ */
+
+/* ===== ПЕРЕМЕННЫЕ ===== */
+:root {
+  --bg-0: #0a0b0e;
+  --bg-1: #0e0f13;
+  --bg-2: #15171c;
+  --bg-3: #1a1c22;
+  --bg-4: #22252c;
+
+  --border-soft: rgba(212, 175, 55, 0.12);
+  --border: rgba(212, 175, 55, 0.22);
+  --border-strong: rgba(212, 175, 55, 0.45);
+
+  --gold: #d4af37;
+  --gold-bright: #f5d76e;
+  --gold-deep: #a8842a;
+
+  --text: #f1ede4;
+  --text-soft: #a8abb2;
+  --text-muted: #6e7178;
+
+  --danger: #e74c3c;
+  --danger-soft: rgba(231, 76, 60, 0.15);
+  --warning: #e6a23c;
+  --ok: #2ecc71;
+
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-gold: 0 8px 32px rgba(212, 175, 55, 0.15);
+
+  --radius: 14px;
+  --radius-lg: 20px;
+}
+
+/* ===== БАЗА ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  background: var(--bg-0);
+  overflow-x: hidden;
+  width: 100%;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(212, 175, 55, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 85% 100%, rgba(15, 81, 50, 0.15) 0%, transparent 45%),
+    linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+
+.app {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+  padding-top: calc(32px + env(safe-area-inset-top));
+  padding-bottom: calc(80px + env(safe-area-inset-bottom));
+  padding-left: calc(24px + env(safe-area-inset-left));
+  padding-right: calc(24px + env(safe-area-inset-right));
+}
+
+/* ===== ШАПКА ===== */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 36px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-soft);
+  flex-wrap: wrap;
+  gap: 16px;
+  position: relative;
+}
+
+.app-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+.app-header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 50%, var(--gold-deep) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ===== LAYOUT ===== */
+.layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.sidebar {
+  background: linear-gradient(180deg, var(--bg-3) 0%, var(--bg-2) 100%);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  box-shadow: var(--shadow-soft);
+  position: sticky;
+  top: 24px;
+}
+
+.main {
+  min-width: 0;
+}
+
+/* ===== ФОРМА МАШИНЫ ===== */
+.car-form {
+  background: linear-gradient(180deg, rgba(212, 175, 55, 0.04) 0%, transparent 100%);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 10px;
+}
+
+.car-form h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--gold-bright);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+
+.car-form input {
+  display: block;
+  width: 100%;
+  padding: 11px 14px;
+  margin-bottom: 10px;
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  font-size: 16px; /* 16px! чтобы iOS не зумил при фокусе */
+  font-family: inherit;
+  outline: none;
+  background: var(--bg-1);
+  color: var(--text);
+  transition: all 0.25s ease;
+  letter-spacing: 0.01em;
+}
+
+.car-form input::placeholder {
+  color: var(--text-muted);
+}
+
+.car-form input:focus {
+  border-color: var(--border-strong);
+  background: var(--bg-0);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
+}
+
+/* ===== КНОПКИ ФОРМЫ ===== */
+.form-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.form-buttons button {
+  flex: 1;
+  padding: 13px 16px;
+  min-height: 46px;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
+  color: #1a1408;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.25);
+  font-family: inherit;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  touch-action: manipulation;
+}
+
+.form-buttons button:active {
+  transform: scale(0.97);
+}
+
+.form-buttons button.cancel {
+  background: transparent;
+  color: var(--text-soft);
+  border: 1px solid var(--border-soft);
+  box-shadow: none;
+  text-transform: none;
+}
+
+/* ===== СПИСОК МАШИН ===== */
+.car-list {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 0;
+  border-top: 1px solid var(--border-soft);
+  padding-top: 18px;
+}
+
+.car-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-bottom: 6px;
+  border: 1px solid transparent;
+  position: relative;
+  min-height: 52px;
+}
+
+.car-list li:active {
+  background: rgba(212, 175, 55, 0.06);
+}
+
+.car-list li.active {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0.04) 100%);
+  border-color: var(--border);
+  box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.1), 0 4px 16px rgba(212, 175, 55, 0.08);
+}
+
+.car-list li.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20%;
+  bottom: 20%;
+  width: 2px;
+  background: var(--gold);
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--gold);
+}
+
+.car-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.car-info strong {
+  font-size: 15px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.car-info span {
+  font-size: 12px;
+  color: var(--text-soft);
+}
+
+.car-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.car-actions button {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 8px;
+  min-width: 40px;
+  min-height: 40px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  opacity: 0.55;
+  touch-action: manipulation;
+}
+
+.car-actions button:active {
+  opacity: 1;
+  background: rgba(212, 175, 55, 0.08);
+}
+
+/* ===== ДЕТАЛИ МАШИНЫ ===== */
+.car-details-container {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.btn-back {
+  background: none;
+  border: none;
+  color: var(--gold);
+  font-size: 15px;
+  cursor: pointer;
+  margin-bottom: 22px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  letter-spacing: 0.03em;
+  padding: 8px 0;
+  min-height: 40px;
+  touch-action: manipulation;
+}
+
+.btn-back:active {
+  color: var(--gold-bright);
+  transform: translateX(-3px);
+}
+
+.car-details {
+  background: linear-gradient(180deg, var(--bg-3) 0%, var(--bg-2) 100%);
+  padding: 36px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border-soft);
+  position: relative;
+  overflow: hidden;
+}
+
+.car-details::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+}
+
+.car-details-header {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-bottom: 30px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.car-details-icon {
+  width: 84px;
+  height: 84px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.04) 100%);
+  border: 1px solid var(--border-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  flex-shrink: 0;
+  box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.08);
+}
+
+.car-details h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+}
+
+.car-details-meta {
+  display: flex;
+  gap: 18px;
+  color: var(--text-soft);
+  font-size: 14px;
+  flex-wrap: wrap;
+  letter-spacing: 0.02em;
+}
+
+/* ===== НАПОМИНАНИЕ ===== */
+.reminder-box {
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 26px;
+  border: 1px solid;
+  position: relative;
+  overflow: hidden;
+}
+
+.reminder-box::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+}
+
+.reminder-box.reminder-ok {
+  background: linear-gradient(135deg, rgba(46, 204, 113, 0.06) 0%, rgba(46, 204, 113, 0.02) 100%);
+  border-color: rgba(46, 204, 113, 0.25);
+}
+.reminder-box.reminder-ok::before { background: var(--ok); box-shadow: 0 0 10px var(--ok); }
+
+.reminder-box.reminder-soon {
+  background: linear-gradient(135deg, rgba(230, 162, 60, 0.08) 0%, rgba(230, 162, 60, 0.02) 100%);
+  border-color: rgba(230, 162, 60, 0.3);
+}
+.reminder-box.reminder-soon::before { background: var(--warning); box-shadow: 0 0 10px var(--warning); }
+
+.reminder-box.reminder-overdue {
+  background: linear-gradient(135deg, rgba(231, 76, 60, 0.08) 0%, rgba(231, 76, 60, 0.02) 100%);
+  border-color: rgba(231, 76, 60, 0.35);
+  animation: pulse 2.2s ease infinite;
+}
+.reminder-box.reminder-overdue::before { background: var(--danger); box-shadow: 0 0 10px var(--danger); }
+
+.reminder-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+
+.reminder-ok .reminder-title { color: #4ade80; }
+.reminder-soon .reminder-title { color: #f5b95c; }
+.reminder-overdue .reminder-title { color: #f87171; }
+
+.reminder-message {
+  font-size: 14px;
+  color: var(--text-soft);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.82; }
+}
+
+/* ===== СТАТИСТИКА ===== */
+.car-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background: linear-gradient(180deg, rgba(212, 175, 55, 0.05) 0%, rgba(212, 175, 55, 0.01) 100%);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  padding: 22px 16px;
+  text-align: center;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.stat-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--gold-bright);
+  margin-bottom: 6px;
+  line-height: 1.1;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ===== ГРАФИК ===== */
+.chart-section {
+  background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 26px;
+  margin-bottom: 32px;
+}
+
+.chart-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--gold-bright);
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-soft);
+  letter-spacing: 0.02em;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+/* ===== СЕКЦИЯ С ЗАГОЛОВКОМ ===== */
+.section-header-with-counter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-soft);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.section-header-with-counter h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.btn-add-small {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
+  color: #1a1408;
+  border: none;
+  padding: 11px 20px;
+  min-height: 44px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.25);
+  font-family: inherit;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  touch-action: manipulation;
+}
+
+.btn-add-small:active {
+  transform: scale(0.97);
+}
+
+/* ===== СПИСОК ТО ===== */
+.maintenance-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.maintenance-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--bg-1);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.maintenance-date {
+  min-width: 130px;
+  font-weight: 500;
+  color: var(--gold);
+  font-size: 13px;
+  text-transform: capitalize;
+}
+
+.maintenance-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.maintenance-description {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 5px;
+}
+
+.maintenance-details {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--text-soft);
+  flex-wrap: wrap;
+}
+
+.maintenance-cost {
+  color: var(--gold-bright);
+  font-weight: 600;
+}
+
+.maintenance-edit,
+.maintenance-delete {
+  border: 1px solid var(--border-soft);
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  background: var(--bg-3);
+  color: var(--text-soft);
+  font-family: inherit;
+  touch-action: manipulation;
+}
+
+.maintenance-edit:active {
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--gold-bright);
+}
+
+.maintenance-delete:active {
+  background: var(--danger-soft);
+  color: #f87171;
+}
+
+/* ===== ФОРМА ТО ===== */
+.maintenance-form {
+  background: linear-gradient(180deg, rgba(212, 175, 55, 0.04) 0%, transparent 100%);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 26px;
+  margin-bottom: 26px;
+}
+
+.maintenance-form h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--gold-bright);
+  margin-bottom: 20px;
+}
+
+.maintenance-form input {
+  display: block;
+  width: 100%;
+  padding: 13px 16px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  font-size: 16px; /* 16px — iOS не зумит */
+  font-family: inherit;
+  outline: none;
+  background: var(--bg-1);
+  color: var(--text);
+  transition: all 0.25s ease;
+}
+
+.maintenance-form input::placeholder {
+  color: var(--text-muted);
+}
+
+.maintenance-form input:focus {
+  border-color: var(--border-strong);
+  background: var(--bg-0);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
+}
+
+/* ===== ПУСТЫЕ СОСТОЯНИЯ ===== */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+.empty-state::before {
+  content: '🚗';
+  display: block;
+  font-size: 56px;
+  margin-bottom: 18px;
+  opacity: 0.25;
+  filter: grayscale(0.6);
+}
+
+.empty {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+/* ===== СКРОЛЛБАР ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-0);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--bg-4), var(--bg-3));
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.3);
+}
+
+/* ===== ВЫДЕЛЕНИЕ ===== */
+::selection {
+  background: rgba(212, 175, 55, 0.3);
+  color: var(--gold-bright);
+}
+
+/* ==========================================================
+   ===== ПЛАНШЕТ / НОУТ (по ширине) ==========================
+   ========================================================== */
+@media (max-width: 980px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .sidebar {
+    position: static;
+  }
+
+  .app-header h1 { font-size: 32px; }
+  .app-header { flex-direction: column; align-items: flex-start; }
+  .car-stats { grid-template-columns: 1fr; }
+  .car-details-header { flex-direction: column; text-align: center; }
+  .chart-wrapper { height: 240px; }
+  .car-details { padding: 26px; }
+  .car-details h1 { font-size: 30px; }
+}
+
+/* ==========================================================
+   ===== МОБИЛА (iPhone и подобные) ==========================
+   ========================================================== */
+@media (max-width: 480px) {
+  .app {
+    padding: 20px 16px 60px;
+    padding-top: calc(20px + env(safe-area-inset-top));
+    padding-bottom: calc(60px + env(safe-area-inset-bottom));
+    padding-left: calc(16px + env(safe-area-inset-left));
+    padding-right: calc(16px + env(safe-area-inset-right));
+  }
+
+  /* Шапка */
+  .app-header {
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+  }
+
+  .app-header h1 {
+    font-size: 26px;
+    gap: 8px;
+  }
+
+  .app-header::after {
+    width: 80px;
+  }
+
+  /* Сайдбар */
+  .sidebar {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  /* Форма машины */
+  .car-form {
+    padding: 14px;
+  }
+
+  .car-form h3 {
+    font-size: 17px;
+    margin-bottom: 12px;
+  }
+
+  .car-form input {
+    padding: 12px 14px;
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  /* Кнопки формы */
+  .form-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .form-buttons button {
+    width: 100%;
+    padding: 14px 16px;
+    min-height: 48px;
+    font-size: 14px;
+  }
+
+  /* Список машин */
+  .car-list {
+    margin-top: 14px;
+    padding-top: 14px;
+  }
+
+  .car-list li {
+    padding: 14px 12px;
+    min-height: 56px;
+  }
+
+  .car-info strong {
+    font-size: 15px;
+  }
+
+  .car-info span {
+    font-size: 12px;
+  }
+
+  .car-actions button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  /* Детали машины */
+  .car-details {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .car-details-header {
+    gap: 16px;
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+  }
+
+  .car-details-icon {
+    width: 64px;
+    height: 64px;
+    font-size: 32px;
+    border-radius: 16px;
+  }
+
+  .car-details h1 {
+    font-size: 26px;
+  }
+
+  .car-details-meta {
+    font-size: 13px;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  /* Напоминание */
+  .reminder-box {
+    padding: 16px 18px;
+    margin-bottom: 20px;
+  }
+
+  .reminder-title {
+    font-size: 17px;
+  }
+
+  .reminder-message {
+    font-size: 13px;
+  }
+
+  /* Статистика */
+  .car-stats {
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    padding: 16px 12px;
+  }
+
+  .stat-value {
+    font-size: 24px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+
+  /* График */
+  .chart-section {
+    padding: 18px 14px;
+    margin-bottom: 24px;
+  }
+
+  .chart-title {
+    font-size: 19px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+  }
+
+  .chart-wrapper {
+    height: 220px;
+  }
+
+  /* Секция с кнопкой */
+  .section-header-with-counter {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .section-header-with-counter h2 {
+    font-size: 21px;
+  }
+
+  .btn-add-small {
+    width: 100%;
+    padding: 13px 16px;
+    min-height: 46px;
+    font-size: 13px;
+  }
+
+  /* Список ТО — карточкой */
+  .maintenance-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 14px 16px 56px 16px;
+    position: relative;
+  }
+
+  .maintenance-date {
+    min-width: auto;
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+
+  .maintenance-description {
+    font-size: 15px;
+  }
+
+  .maintenance-details {
+    font-size: 12px;
+    gap: 12px;
+  }
+
+  .maintenance-edit,
+  .maintenance-delete {
+    position: absolute;
+    bottom: 12px;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 10px;
+  }
+
+  .maintenance-edit { right: 60px; }
+  .maintenance-delete { right: 12px; }
+
+  /* Форма ТО */
+  .maintenance-form {
+    padding: 18px 16px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+
+  .maintenance-form h3 {
+    font-size: 18px;
+    margin-bottom: 14px;
+  }
+
+  .maintenance-form input {
+    padding: 13px 14px;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  /* Кнопка назад */
+  .btn-back {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  /* Пустое состояние */
+  .empty-state {
+    padding: 40px 16px;
+    font-size: 14px;
+  }
+
+  .empty-state::before {
+    font-size: 44px;
+    margin-bottom: 14px;
+  }
+}
+
+/* ==========================================================
+   ===== ОЧЕНЬ МАЛЕНЬКИЕ ЭКРАНЫ (iPhone SE и т.п.) ===========
+   ========================================================== */
+@media (max-width: 375px) {
+  .app {
+    padding: 16px 12px 50px;
+    padding-top: calc(16px + env(safe-area-inset-top));
+    padding-bottom: calc(50px + env(safe-area-inset-bottom));
+  }
+
+  .app-header h1 {
+    font-size: 22px;
+  }
+
+  .car-details {
+    padding: 16px;
+  }
+
+  .car-details h1 {
+    font-size: 22px;
+  }
+
+  .car-details-icon {
+    width: 56px;
+    height: 56px;
+    font-size: 28px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+  }
+
+  .chart-wrapper {
+    height: 200px;
+  }
+}
