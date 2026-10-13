@@ -10,45 +10,32 @@ import {
   Legend,
 } from 'chart.js';
 import MaintenanceForm from './MaintenanceForm';
-import { API_URL } from '../config';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3002/api';
 const MAINTENANCE_INTERVAL = 7000;
 
-function CarDetails({ car, onBack, onUpdate }) {
+function CarDetails({ car, token, onBack, onUpdate }) {
   const [maintenance, setMaintenance] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingRecord, setEditingRecord] = useState(null);
 
+  const headers = { Authorization: `Bearer ${token}` };
+
   useEffect(() => {
     fetchMaintenance(true);
-
-    const interval = setInterval(() => {
-      fetchMaintenance(false);
-    }, 5000);
-
+    const interval = setInterval(() => fetchMaintenance(false), 5000);
     return () => clearInterval(interval);
   }, [car.id]);
 
   const fetchMaintenance = async (showLoading = false) => {
     if (showLoading) setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/maintenance/${car.id}`);
+      const res = await fetch(`${API_URL}/maintenance/${car.id}`, { headers });
       const data = await res.json();
-      if (Array.isArray(data)) {
-        setMaintenance(data);
-      } else {
-        setMaintenance([]);
-      }
+      setMaintenance(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error('Ошибка загрузки ТО:', err);
     } finally {
@@ -63,25 +50,13 @@ function CarDetails({ car, onBack, onUpdate }) {
         ? `${API_URL}/maintenance/${editingRecord.id}`
         : `${API_URL}/maintenance`;
       const method = isEdit ? 'PUT' : 'POST';
-
       const body = isEdit
-        ? {
-            date: record.date,
-            mileage: record.mileage,
-            description: record.description,
-            cost: record.cost,
-          }
-        : {
-            car_id: car.id,
-            date: record.date,
-            mileage: record.mileage,
-            description: record.description,
-            cost: record.cost,
-          };
+        ? { date: record.date, mileage: record.mileage, description: record.description, cost: record.cost }
+        : { car_id: car.id, date: record.date, mileage: record.mileage, description: record.description, cost: record.cost };
 
       const res = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...headers },
         body: JSON.stringify(body),
       });
 
@@ -102,7 +77,7 @@ function CarDetails({ car, onBack, onUpdate }) {
   const handleDeleteMaintenance = async (id) => {
     if (!confirm('Удалить запись?')) return;
     try {
-      await fetch(`${API_URL}/maintenance/${id}`, { method: 'DELETE' });
+      await fetch(`${API_URL}/maintenance/${id}`, { method: 'DELETE', headers });
       setMaintenance(maintenance.filter((m) => m.id !== id));
     } catch (err) {
       console.error('Ошибка удаления:', err);
@@ -119,54 +94,28 @@ function CarDetails({ car, onBack, onUpdate }) {
     setEditingRecord(null);
   };
 
-  const totalCost = maintenance.reduce(
-    (sum, m) => sum + (parseFloat(m.cost) || 0),
-    0
-  );
+  const totalCost = maintenance.reduce((sum, m) => sum + (parseFloat(m.cost) || 0), 0);
   const lastMaintenance = maintenance[0];
 
   const calculateReminder = () => {
     const currentMileage = car.mileage || 0;
     if (currentMileage === 0) return null;
-
-    const nextServiceMileage =
-      Math.ceil((currentMileage + 1) / MAINTENANCE_INTERVAL) * MAINTENANCE_INTERVAL;
+    const nextServiceMileage = Math.ceil((currentMileage + 1) / MAINTENANCE_INTERVAL) * MAINTENANCE_INTERVAL;
     const kmLeft = nextServiceMileage - currentMileage;
 
-    if (kmLeft <= 0) {
-      return {
-        type: 'overdue',
-        title: '⚠️ ПОРА НА ТО!',
-        message: `Пробег превысил ${nextServiceMileage.toLocaleString()} км. Замена масла просрочена!`,
-      };
-    } else if (kmLeft <= 1000) {
-      return {
-        type: 'soon',
-        title: '🔔 Скоро ТО',
-        message: `До замены масла осталось ${kmLeft.toLocaleString()} км (на ${nextServiceMileage.toLocaleString()} км).`,
-      };
-    } else {
-      return {
-        type: 'ok',
-        title: '✅ Всё в порядке',
-        message: `Следующее ТО на ${nextServiceMileage.toLocaleString()} км (осталось ${kmLeft.toLocaleString()} км).`,
-      };
-    }
+    if (kmLeft <= 0) return { type: 'overdue', title: '⚠️ ПОРА НА ТО!', message: `Пробег превысил ${nextServiceMileage.toLocaleString()} км. Замена масла просрочена!` };
+    if (kmLeft <= 1000) return { type: 'soon', title: '🔔 Скоро ТО', message: `До замены масла осталось ${kmLeft.toLocaleString()} км.` };
+    return { type: 'ok', title: '✅ Всё в порядке', message: `Следующее ТО на ${nextServiceMileage.toLocaleString()} км (осталось ${kmLeft.toLocaleString()} км).` };
   };
 
   const reminder = calculateReminder();
 
   const getMonthlyData = () => {
     const months = {};
-    const monthNames = [
-      'Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн',
-      'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек',
-    ];
-
+    const monthNames = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
     const now = new Date();
     const labels = [];
     const keys = [];
-
     for (let i = 11; i >= 0; i--) {
       const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
       const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
@@ -174,36 +123,26 @@ function CarDetails({ car, onBack, onUpdate }) {
       keys.push(key);
       months[key] = 0;
     }
-
     maintenance.forEach((record) => {
       const date = new Date(record.date);
       const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-      if (months[key] !== undefined) {
-        months[key] += parseFloat(record.cost) || 0;
-      }
+      if (months[key] !== undefined) months[key] += parseFloat(record.cost) || 0;
     });
-
-    return {
-      labels,
-      data: keys.map((k) => months[k]),
-    };
+    return { labels, data: keys.map((k) => months[k]) };
   };
 
   const monthlyData = getMonthlyData();
-
   const chartData = {
     labels: monthlyData.labels,
-    datasets: [
-      {
-        label: 'Расходы, ₽',
-        data: monthlyData.data,
-        backgroundColor: 'rgba(212, 175, 55, 0.6)',
-        borderColor: '#d4af37',
-        borderWidth: 2,
-        borderRadius: 8,
-        hoverBackgroundColor: '#f5d76e',
-      },
-    ],
+    datasets: [{
+      label: 'Расходы, ₽',
+      data: monthlyData.data,
+      backgroundColor: 'rgba(212, 175, 55, 0.6)',
+      borderColor: '#d4af37',
+      borderWidth: 2,
+      borderRadius: 8,
+      hoverBackgroundColor: '#f5d76e',
+    }],
   };
 
   const chartOptions = {
@@ -217,33 +156,12 @@ function CarDetails({ car, onBack, onUpdate }) {
         borderWidth: 1,
         titleColor: '#f5d76e',
         bodyColor: '#f1ede4',
-        titleFont: { family: 'Inter', size: 14 },
-        bodyFont: { family: 'Inter', size: 14 },
-        padding: 12,
-        cornerRadius: 8,
-        callbacks: {
-          label: (context) =>
-            `Расходы: ${context.parsed.y.toLocaleString()} ₽`,
-        },
+        callbacks: { label: (ctx) => `Расходы: ${ctx.parsed.y.toLocaleString()} ₽` },
       },
     },
     scales: {
-      y: {
-        beginAtZero: true,
-        ticks: {
-          color: '#a8abb2',
-          font: { family: 'Inter', size: 12 },
-          callback: (value) => value.toLocaleString() + ' ₽',
-        },
-        grid: { color: 'rgba(212, 175, 55, 0.08)' },
-      },
-      x: {
-        ticks: {
-          color: '#a8abb2',
-          font: { family: 'Inter', size: 11 },
-        },
-        grid: { display: false },
-      },
+      y: { beginAtZero: true, ticks: { color: '#a8abb2', callback: (v) => v.toLocaleString() + ' ₽' }, grid: { color: 'rgba(212, 175, 55, 0.08)' } },
+      x: { ticks: { color: '#a8abb2' }, grid: { display: false } },
     },
   };
 
@@ -251,9 +169,7 @@ function CarDetails({ car, onBack, onUpdate }) {
 
   return (
     <div className="car-details-container">
-      <button className="btn-back" onClick={onBack}>
-        ← Назад
-      </button>
+      <button className="btn-back" onClick={onBack}>← Назад</button>
 
       <div className="car-details">
         <div className="car-details-header">
@@ -262,9 +178,7 @@ function CarDetails({ car, onBack, onUpdate }) {
             <h1>{car.name}</h1>
             <div className="car-details-meta">
               {car.year && <span>📅 {car.year} г.</span>}
-              {car.mileage > 0 && (
-                <span>🛣 {car.mileage.toLocaleString()} км</span>
-              )}
+              {car.mileage > 0 && <span>🛣 {car.mileage.toLocaleString()} км</span>}
             </div>
           </div>
         </div>
@@ -277,52 +191,27 @@ function CarDetails({ car, onBack, onUpdate }) {
         )}
 
         <div className="car-stats">
-          <div className="stat-card">
-            <div className="stat-value">{maintenance.length}</div>
-            <div className="stat-label">Записей ТО</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-value">{totalCost.toLocaleString()} ₽</div>
-            <div className="stat-label">Всего потрачено</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-value">
-              {lastMaintenance
-                ? new Date(lastMaintenance.date).toLocaleDateString('ru-RU')
-                : '—'}
-            </div>
-            <div className="stat-label">Последнее ТО</div>
-          </div>
+          <div className="stat-card"><div className="stat-value">{maintenance.length}</div><div className="stat-label">Записей ТО</div></div>
+          <div className="stat-card"><div className="stat-value">{totalCost.toLocaleString()} ₽</div><div className="stat-label">Всего потрачено</div></div>
+          <div className="stat-card"><div className="stat-value">{lastMaintenance ? new Date(lastMaintenance.date).toLocaleDateString('ru-RU') : '—'}</div><div className="stat-label">Последнее ТО</div></div>
         </div>
 
         {hasChartData && (
           <div className="chart-section">
             <h2 className="chart-title">📊 Расходы по месяцам</h2>
-            <div className="chart-wrapper">
-              <Bar data={chartData} options={chartOptions} />
-            </div>
+            <div className="chart-wrapper"><Bar data={chartData} options={chartOptions} /></div>
           </div>
         )}
 
         <div className="section-header-with-counter">
           <h2>История обслуживания</h2>
-          <button
-            className="btn-add-small"
-            onClick={() => {
-              setEditingRecord(null);
-              setShowForm(true);
-            }}
-          >
+          <button className="btn-add-small" onClick={() => { setEditingRecord(null); setShowForm(true); }}>
             + Добавить запись
           </button>
         </div>
 
         {showForm && (
-          <MaintenanceForm
-            onSave={handleSaveMaintenance}
-            onCancel={handleCancelForm}
-            editing={editingRecord}
-          />
+          <MaintenanceForm onSave={handleSaveMaintenance} onCancel={handleCancelForm} editing={editingRecord} />
         )}
 
         {loading ? (
@@ -334,41 +223,17 @@ function CarDetails({ car, onBack, onUpdate }) {
             {maintenance.map((record) => (
               <div key={record.id} className="maintenance-item">
                 <div className="maintenance-date">
-                  {new Date(record.date).toLocaleDateString('ru-RU', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                  })}
+                  {new Date(record.date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}
                 </div>
                 <div className="maintenance-body">
-                  <div className="maintenance-description">
-                    {record.description}
-                  </div>
+                  <div className="maintenance-description">{record.description}</div>
                   <div className="maintenance-details">
-                    {record.mileage && (
-                      <span>🛣 {record.mileage.toLocaleString()} км</span>
-                    )}
-                    {record.cost > 0 && (
-                      <span className="maintenance-cost">
-                        💰 {parseFloat(record.cost).toLocaleString()} ₽
-                      </span>
-                    )}
+                    {record.mileage && <span>🛣 {record.mileage.toLocaleString()} км</span>}
+                    {record.cost > 0 && <span className="maintenance-cost">💰 {parseFloat(record.cost).toLocaleString()} ₽</span>}
                   </div>
                 </div>
-                <button
-                  className="maintenance-edit"
-                  onClick={() => handleEditClick(record)}
-                  title="Редактировать"
-                >
-                  ✏️
-                </button>
-                <button
-                  className="maintenance-delete"
-                  onClick={() => handleDeleteMaintenance(record.id)}
-                  title="Удалить"
-                >
-                  ✕
-                </button>
+                <button className="maintenance-edit" onClick={() => handleEditClick(record)} title="Редактировать">✏️</button>
+                <button className="maintenance-delete" onClick={() => handleDeleteMaintenance(record.id)} title="Удалить">✕</button>
               </div>
             ))}
           </div>

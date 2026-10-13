@@ -1,5 +1,6 @@
 /* ============================================
-   ГАРАЖ — ТЁМНАЯ ПРЕМИУМ-ТЕМА (адаптив iPhone)
+   ГАРАЖ — тёмная премиум-тема
+   + АВТОРИЗАЦИЯ + МОБИЛЬНАЯ ВЕРСИЯ
    ============================================ */
 
 /* ===== ПЕРЕМЕННЫЕ ===== */
@@ -23,12 +24,10 @@
   --text-muted: #6e7178;
 
   --danger: #e74c3c;
-  --danger-soft: rgba(231, 76, 60, 0.15);
   --warning: #e6a23c;
   --ok: #2ecc71;
 
   --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
-  --shadow-gold: 0 8px 32px rgba(212, 175, 55, 0.15);
 
   --radius: 14px;
   --radius-lg: 20px;
@@ -157,13 +156,12 @@ body {
   margin-bottom: 10px;
   border: 1px solid var(--border-soft);
   border-radius: 10px;
-  font-size: 16px; /* 16px! чтобы iOS не зумил при фокусе */
+  font-size: 16px;
   font-family: inherit;
   outline: none;
   background: var(--bg-1);
   color: var(--text);
   transition: all 0.25s ease;
-  letter-spacing: 0.01em;
 }
 
 .car-form input::placeholder {
@@ -324,7 +322,6 @@ body {
   gap: 8px;
   transition: all 0.2s ease;
   font-family: inherit;
-  letter-spacing: 0.03em;
   padding: 8px 0;
   min-height: 40px;
   touch-action: manipulation;
@@ -440,7 +437,6 @@ body {
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 6px;
-  letter-spacing: 0.02em;
 }
 
 .reminder-ok .reminder-title { color: #4ade80; }
@@ -521,7 +517,6 @@ body {
   margin-bottom: 20px;
   padding-bottom: 14px;
   border-bottom: 1px solid var(--border-soft);
-  letter-spacing: 0.02em;
 }
 
 .chart-wrapper {
@@ -548,7 +543,6 @@ body {
   font-weight: 600;
   color: var(--text);
   margin: 0;
-  letter-spacing: 0.02em;
 }
 
 .btn-add-small {
@@ -649,7 +643,7 @@ body {
 }
 
 .maintenance-delete:active {
-  background: var(--danger-soft);
+  background: rgba(231, 76, 60, 0.15);
   color: #f87171;
 }
 
@@ -677,7 +671,7 @@ body {
   margin-bottom: 12px;
   border: 1px solid var(--border-soft);
   border-radius: 10px;
-  font-size: 16px; /* 16px — iOS не зумит */
+  font-size: 16px;
   font-family: inherit;
   outline: none;
   background: var(--bg-1);
@@ -745,7 +739,305 @@ body {
 }
 
 /* ==========================================================
-   ===== ПЛАНШЕТ / НОУТ (по ширине) ==========================
+   ===== AUTH PAGE — СТРАНИЦА ВХОДА ==========================
+   ========================================================== */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  padding-top: calc(20px + env(safe-area-inset-top));
+  padding-bottom: calc(20px + env(safe-area-inset-bottom));
+  background:
+    radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, #0a0b0e 0%, #0e0f13 100%);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  background: linear-gradient(180deg, #1a1c22 0%, #15171c 100%);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 20px;
+  padding: 36px 28px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(212, 175, 55, 0.05);
+}
+
+.auth-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 28px;
+  background: linear-gradient(135deg, #f5d76e 0%, #d4af37 50%, #a8842a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 24px;
+  background: #0e0f13;
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.auth-tabs button {
+  flex: 1;
+  padding: 11px;
+  border: none;
+  background: transparent;
+  color: #8b8e96;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.auth-tabs button.active {
+  background: linear-gradient(135deg, #d4af37 0%, #a8842a 100%);
+  color: #1a1408;
+  font-weight: 700;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: #a8abb2;
+  font-weight: 500;
+}
+
+.auth-label input {
+  padding: 13px 16px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 10px;
+  font-size: 16px;
+  font-family: inherit;
+  background: #0e0f13;
+  color: #f1ede4;
+  outline: none;
+  transition: all 0.2s;
+  letter-spacing: 0.05em;
+}
+
+.auth-label input:focus {
+  border-color: rgba(212, 175, 55, 0.5);
+  background: #0a0b0e;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
+}
+
+.auth-error {
+  padding: 10px 14px;
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  border-radius: 10px;
+  color: #f87171;
+  font-size: 13px;
+}
+
+.auth-submit {
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #d4af37 0%, #a8842a 100%);
+  color: #1a1408;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  font-family: inherit;
+  margin-top: 6px;
+  min-height: 48px;
+}
+
+.auth-submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(212, 175, 55, 0.4);
+}
+
+.auth-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loading-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a8abb2;
+  font-size: 16px;
+}
+
+/* ==========================================================
+   ===== USER MENU — ВЫПАДАЮЩЕЕ МЕНЮ ПРОФИЛЯ =================
+   ========================================================== */
+
+.user-menu {
+  position: relative;
+}
+
+.user-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px 8px 8px;
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 30px;
+  cursor: pointer;
+  color: #f1ede4;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.user-btn:hover {
+  background: rgba(212, 175, 55, 0.12);
+  border-color: rgba(212, 175, 55, 0.4);
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d4af37 0%, #a8842a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #1a1408;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.user-arrow {
+  color: #8b8e96;
+  font-size: 10px;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  background: #1a1c22;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  z-index: 100;
+}
+
+.user-dropdown button {
+  display: block;
+  width: 100%;
+  padding: 11px 14px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  text-align: left;
+  color: #f1ede4;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.user-dropdown button:hover {
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.user-dropdown button.danger:hover {
+  background: rgba(231, 76, 60, 0.12);
+  color: #f87171;
+}
+
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+}
+
+/* ==========================================================
+   ===== MODAL — СМЕНА ПАРОЛЯ ================================
+   ========================================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.modal {
+  width: 100%;
+  max-width: 400px;
+  background: linear-gradient(180deg, #1a1c22 0%, #15171c 100%);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+}
+
+.modal h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  color: #f5d76e;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.modal-actions button {
+  flex: 1;
+  min-height: 46px;
+}
+
+.modal-success {
+  text-align: center;
+  padding: 30px 20px;
+  color: #4ade80;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ==========================================================
+   ===== АДАПТИВ — ПЛАНШЕТ ===================================
    ========================================================== */
 @media (max-width: 980px) {
   .layout {
@@ -767,18 +1059,15 @@ body {
 }
 
 /* ==========================================================
-   ===== МОБИЛА (iPhone и подобные) ==========================
+   ===== АДАПТИВ — МОБИЛА (iPhone) ===========================
    ========================================================== */
 @media (max-width: 480px) {
   .app {
     padding: 20px 16px 60px;
     padding-top: calc(20px + env(safe-area-inset-top));
     padding-bottom: calc(60px + env(safe-area-inset-bottom));
-    padding-left: calc(16px + env(safe-area-inset-left));
-    padding-right: calc(16px + env(safe-area-inset-right));
   }
 
-  /* Шапка */
   .app-header {
     margin-bottom: 24px;
     padding-bottom: 18px;
@@ -789,17 +1078,17 @@ body {
     gap: 8px;
   }
 
-  .app-header::after {
-    width: 80px;
-  }
+  .app-header::after { width: 80px; }
 
-  /* Сайдбар */
+  .user-name { display: none; }
+  .user-btn { padding: 6px 10px 6px 6px; }
+  .user-avatar { width: 30px; height: 30px; font-size: 16px; }
+
   .sidebar {
     padding: 16px;
     border-radius: 16px;
   }
 
-  /* Форма машины */
   .car-form {
     padding: 14px;
   }
@@ -815,7 +1104,6 @@ body {
     margin-bottom: 8px;
   }
 
-  /* Кнопки формы */
   .form-buttons {
     flex-direction: column;
     gap: 8px;
@@ -828,7 +1116,6 @@ body {
     font-size: 14px;
   }
 
-  /* Список машин */
   .car-list {
     margin-top: 14px;
     padding-top: 14px;
@@ -839,14 +1126,6 @@ body {
     min-height: 56px;
   }
 
-  .car-info strong {
-    font-size: 15px;
-  }
-
-  .car-info span {
-    font-size: 12px;
-  }
-
   .car-actions button {
     min-width: 44px;
     min-height: 44px;
@@ -854,7 +1133,6 @@ body {
     font-size: 16px;
   }
 
-  /* Детали машины */
   .car-details {
     padding: 20px;
     border-radius: 16px;
@@ -873,9 +1151,7 @@ body {
     border-radius: 16px;
   }
 
-  .car-details h1 {
-    font-size: 26px;
-  }
+  .car-details h1 { font-size: 26px; }
 
   .car-details-meta {
     font-size: 13px;
@@ -883,40 +1159,23 @@ body {
     justify-content: center;
   }
 
-  /* Напоминание */
   .reminder-box {
     padding: 16px 18px;
     margin-bottom: 20px;
   }
 
-  .reminder-title {
-    font-size: 17px;
-  }
+  .reminder-title { font-size: 17px; }
+  .reminder-message { font-size: 13px; }
 
-  .reminder-message {
-    font-size: 13px;
-  }
-
-  /* Статистика */
   .car-stats {
     gap: 10px;
     margin-bottom: 24px;
   }
 
-  .stat-card {
-    padding: 16px 12px;
-  }
+  .stat-card { padding: 16px 12px; }
+  .stat-value { font-size: 24px; }
+  .stat-label { font-size: 11px; letter-spacing: 0.06em; }
 
-  .stat-value {
-    font-size: 24px;
-  }
-
-  .stat-label {
-    font-size: 11px;
-    letter-spacing: 0.06em;
-  }
-
-  /* График */
   .chart-section {
     padding: 18px 14px;
     margin-bottom: 24px;
@@ -928,11 +1187,8 @@ body {
     padding-bottom: 10px;
   }
 
-  .chart-wrapper {
-    height: 220px;
-  }
+  .chart-wrapper { height: 220px; }
 
-  /* Секция с кнопкой */
   .section-header-with-counter {
     flex-direction: column;
     align-items: stretch;
@@ -940,9 +1196,7 @@ body {
     margin-bottom: 18px;
   }
 
-  .section-header-with-counter h2 {
-    font-size: 21px;
-  }
+  .section-header-with-counter h2 { font-size: 21px; }
 
   .btn-add-small {
     width: 100%;
@@ -951,7 +1205,6 @@ body {
     font-size: 13px;
   }
 
-  /* Список ТО — карточкой */
   .maintenance-item {
     flex-direction: column;
     align-items: stretch;
@@ -966,14 +1219,8 @@ body {
     margin-bottom: 2px;
   }
 
-  .maintenance-description {
-    font-size: 15px;
-  }
-
-  .maintenance-details {
-    font-size: 12px;
-    gap: 12px;
-  }
+  .maintenance-description { font-size: 15px; }
+  .maintenance-details { font-size: 12px; gap: 12px; }
 
   .maintenance-edit,
   .maintenance-delete {
@@ -988,7 +1235,6 @@ body {
   .maintenance-edit { right: 60px; }
   .maintenance-delete { right: 12px; }
 
-  /* Форма ТО */
   .maintenance-form {
     padding: 18px 16px;
     border-radius: 16px;
@@ -1006,13 +1252,11 @@ body {
     margin-bottom: 10px;
   }
 
-  /* Кнопка назад */
   .btn-back {
     font-size: 14px;
     margin-bottom: 16px;
   }
 
-  /* Пустое состояние */
   .empty-state {
     padding: 40px 16px;
     font-size: 14px;
@@ -1022,10 +1266,13 @@ body {
     font-size: 44px;
     margin-bottom: 14px;
   }
+
+  .auth-card { padding: 28px 20px; }
+  .auth-title { font-size: 26px; }
 }
 
 /* ==========================================================
-   ===== ОЧЕНЬ МАЛЕНЬКИЕ ЭКРАНЫ (iPhone SE и т.п.) ===========
+   ===== ОЧЕНЬ МАЛЕНЬКИЕ ЭКРАНЫ (iPhone SE) =================
    ========================================================== */
 @media (max-width: 375px) {
   .app {
@@ -1034,17 +1281,10 @@ body {
     padding-bottom: calc(50px + env(safe-area-inset-bottom));
   }
 
-  .app-header h1 {
-    font-size: 22px;
-  }
+  .app-header h1 { font-size: 22px; }
 
-  .car-details {
-    padding: 16px;
-  }
-
-  .car-details h1 {
-    font-size: 22px;
-  }
+  .car-details { padding: 16px; }
+  .car-details h1 { font-size: 22px; }
 
   .car-details-icon {
     width: 56px;
@@ -1052,11 +1292,6 @@ body {
     font-size: 28px;
   }
 
-  .stat-value {
-    font-size: 20px;
-  }
-
-  .chart-wrapper {
-    height: 200px;
-  }
+  .stat-value { font-size: 20px; }
+  .chart-wrapper { height: 200px; }
 }
